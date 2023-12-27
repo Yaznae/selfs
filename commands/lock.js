@@ -26,8 +26,8 @@ module.exports = {
                 return msg.channel.send(`unlocked **${msg.channel.name}** .`);
             } else {
                 ids.push(gc)
-
-                return msg.channel.send(`**${msg.channel.name}** was locked by **@${msg.client.user.displayName}`)
+                console.log(msg.channel)
+                return msg.channel.send(`**${msg.channel.name}** was locked by **@${msg.client.user.displayName}**`)
             }
         }
 
