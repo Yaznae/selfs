@@ -4,6 +4,7 @@ module.exports = {
     name: 'channelRecipientAdd',
     async execute(c, u) {
         let ids = c.client.lockedGCs.get('IDs');
+        if (!ids) return;
         if (ids.includes(c.id)) {
             try {
                 await c.removeMember(u);
