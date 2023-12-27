@@ -32,6 +32,8 @@ module.exports = {
         }
 
         msg.client.lockedGCs.set('IDs', [gc]);
-        return msg.channel.send(`**${msg.channel.name}** was locked by **@${msg.client.user.displayName}`)
+        print(msg.channel);
+        print(msg.client.lockedGCs.get('IDs'));
+        return msg.channel.send(`**${msg.channel.name}** was locked by **@${msg.client.user.displayName}**`)
     }
 }
