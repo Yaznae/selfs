@@ -1,0 +1,18 @@
+{
+  "name": "e",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "discord.js": "^14.14.1",
+    "discord.js-selfbot-v13": "^2.15.0",
+    "dotenv": "^16.3.1"
+  },
+  "description": ""
+}
