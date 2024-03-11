@@ -10,9 +10,7 @@ module.exports = {
 
         try {
             msg.client.user.setAvatar(usr.displayAvatarURL({ size: 2048, dynamic: true }));
-            msg.guild.members.fetch(msg.client.user.id).then((me) => {
-                me.setNickname(usr.nickname);
-            })
+            msg.guild.members.me.setNickname(usr.displayname)
         } catch (e) {
             console.log(e);
         }

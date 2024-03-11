@@ -3,26 +3,25 @@ module.exports = {
     aliases: ['h'],
     async execute(msg, args) {
         await msg.delete();
+        const prefix = process.env.PREFIX
         const helpMessage = `
 \`::\` here are the available commands:
 
-\`\`\`
-- \`,stealpfp @user\`
-- \`,help\`
-- \`,skullspam [amount]\`
-- \`,afk\`
-- \`,spam [amount] [message]\`
-- \`,ladder [message]\`
-- \`,banner @user\`
-- \`,avatar @user\`
-- \`,serveravatar @member\`
-- \`,larp @user\`
-- \`,serverlarp @member\`
-- \`,copy @user\`
-- \`,grabip @user\`
-- \`,stream [text]\`
+- \`${prefix}stealpfp @user\`
+- \`${prefix}help\`
+- \`${prefix}skullspam [amount]\`
+- \`${prefix}afk\`
+- \`${prefix}spam [amount] [message]\`
+- \`${prefix}ladder [message]\`
+- \`${prefix}banner @user\`
+- \`${prefix}avatar @user\`
+- \`${prefix}serveravatar @member\`
+- \`${prefix}larp @user\`
+- \`${prefix}serverlarp @member\`
+- \`${prefix}copy @user\`
+- \`${prefix}grabip @user\`
+- \`${prefix}stream [text]\`
 
-\`\`\`
 `;
 
         return msg.channel.send(helpMessage);
