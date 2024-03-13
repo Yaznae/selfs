@@ -1,6 +1,7 @@
 const { Client, Intents, Collection } = require('discord.js-selfbot-v13');
 const fs = require('node:fs');
 const path = require('node:path');
+const keepAlive = require('./server');
 require('dotenv').config();
 
 const bot = new Client({
@@ -42,4 +43,5 @@ for (const file of events) {
     };
 };
 
+keepAlive()
 bot.login(process.env.TOKEN);
