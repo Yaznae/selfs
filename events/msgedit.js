@@ -4,7 +4,9 @@ module.exports = {
         try {
             if (oldMsg.partial) await oldMsg.fetch();
             if (oldMsg.author.bot) return;
-            const snipes = msg.client.editsnipes.get(oldMsg.channel.id) || [];
+            if (msg.author.id == msg.client.user.id) return;
+
+            let snipes = msg.client.editsnipes.get(oldMsg.channel.id) || [];
             const currDate = new Date();
             snipes.unshift({
                 content: oldMsg.content,

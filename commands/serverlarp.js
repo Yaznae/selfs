@@ -6,7 +6,7 @@ module.exports = {
         if (msg.guild == null) return;
         if (!msg.mentions.members.size) return;
 
-        const usr = msg.mentions.members.first();
+        const usr = msg.mentions.users.first();
 
         try {
             msg.client.user.setAvatar(usr.displayAvatarURL({ size: 2048, dynamic: true }));

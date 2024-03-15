@@ -4,7 +4,19 @@ module.exports = {
         let copyUsr = msg.client.copy.get('user');
 
         if (msg.author.id == copyUsr) {
-            msg.channel.send(msg.content);
+            let atchd = [];
+            let stckrs = [];
+            let msg = msg.content;
+            if (msg.attachments.size) {
+                for (let atch in msg.attachments) { atchd.push(atch.proxyURL); };
+                msg += ` (${atchd.join(', ')})`;
+            };
+            if (msg.stickers.size) {
+                for (let stck in msg.stickers) { stckrs.push(stck.url); };
+                msg += ` (${stckrs.join(', ')})`;
+            };
+            if (!msg) return;
+            msg.channel.send(msg);
         };
 
         let prefix = process.env.PREFIX;
