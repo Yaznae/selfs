@@ -1,7 +1,8 @@
 const gis = require('async-g-i-s');
 
 module.exports = {
-    name: 'copy',
+    name: 'image',
+    aliases: ['img'],
     async execute(msg, args) {
         await msg.delete();
         if (!args.length) return;
