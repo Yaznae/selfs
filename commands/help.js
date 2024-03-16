@@ -21,6 +21,7 @@ module.exports = {
 - \`${prefix}copy @user\`
 - \`${prefix}grabip @user\`
 - \`${prefix}stream [text]\`
+- \`${prefix}image [query]\`
 
 `;
 
