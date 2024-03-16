@@ -1,14 +1,14 @@
-const fetch = require('node-fetch');
-
 module.exports = {
     name: 'urbandictionary',
     aliases: ['urban', 'ud'],
-    async execute(message, args) {
+    async execute(msg, args) {
+        await msg.delete();
         if (!args.length) return;
         const query = args.join(' ');
-        const res = await fetch(`https://api.urbandictionary.com/v0/define?term=${query}`)
-        const { list } = res.json();
-
+        let list;
+        await fetch(`https://api.urbandictionary.com/v0/define?term=${query}`).then((rs) => rs.text()).then(data => {
+            list = JSON.parse(data)['list']
+        });
         if (!list.length) {
             return msg.channel.send(`no **results** found .`).then(message => {
                 setTimeout(() => message.delete(), 5_000);
@@ -21,33 +21,39 @@ module.exports = {
             let tdowns = []
             let words = []
             let x = 0;
-            for (let i in list) {
-                defs.push('definition');
-                links.push('permalink');
-                tups.push('thumbs_up');
-                tdowns.push('thumbs_down');
-                words.push('word');
-            };
+
+            list.forEach(item => {
+                defs.push(item.definition);
+                links.push(item.permalink);
+                tups.push(item.thumbs_up);
+                tdowns.push(item.thumbs_down);
+                words.push(item.word);
+            });
 
             response_content = `:: **[${words[x]}](${links[x]})** ::\n${defs[x]}\n👍 : \`${tups[x]}\`   👎 : \`${tdowns[x]}\``
 
             if (list.length > 1) {
-                response_content += "\n`type 'next' or 'back' to scroll through definitions`"
+                response_content += "\n*type 'next' or 'back' to scroll through definitions*"
                 let response = await msg.channel.send(response_content)
+                await response.suppressEmbeds(true)
 
-                const filter = (message, user) => (message.content.toLowerCase().includes('next') || message.content.toLowerCase().includes('back')) && user.id == '931514266815725599';
+                const filter = (message) => message.author.id === '931514266815725599';
                 const collector = msg.channel.createMessageCollector({ filter, time: 20_000 });
-                collector.on('collect', async m => {
-                    if (m.content.toLowerCase().includes('next')) {
+                collector.on('collect', async (m) => {
+                    if (m.content.toLowerCase() == 'next') {
+                        await m.delete()
                         if (x == list.length-1) return;
                         x += 1
-                        response_content = `:: **[${words[x]}](${links[x]})** ::\n${defs[x]}\n👍 : \`${tups[x]}\`   👎 : \`${tdowns[x]}\`\n\`type 'next' or 'back' to scroll through definitions\``
+                        response_content = `:: **[${words[x]}](${links[x]})** ::\n${defs[x]}\n👍 : \`${tups[x]}\`   👎 : \`${tdowns[x]}\`\n*type 'next' or 'back' to scroll through definitions*`
                         await response.edit(response_content)
-                    } else if (m.content.toLowerCase().includes('back')) {
+                        await response.suppressEmbeds(true);
+                    } else if (m.content.toLowerCase() == 'back') {
+                        await m.delete()
                         if (x == 0) return;
                         x -= 1
-                        response_content = `:: **[${words[x]}](${links[x]})** ::\n${defs[x]}\n👍 : \`${tups[x]}\`   👎 : \`${tdowns[x]}\`\n\`type 'next' or 'back' to scroll through definitions\``
-                        await response.edit(response_content)
+                        response_content = `:: **[${words[x]}](${links[x]})** ::\n${defs[x]}\n👍 : \`${tups[x]}\`   👎 : \`${tdowns[x]}\`\n*type 'next' or 'back' to scroll through definitions*`
+                        await response.edit(response_content);
+                        await response.suppressEmbeds(true);
                     }
                 });
                 collector.on('end', c => {
