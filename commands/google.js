@@ -18,7 +18,6 @@ module.exports = {
         }
 
         const res = await google.search(query, options);
-        console.log(res.dictionary)
 
         if (res.knowledge_panel.title !== null) {
             let response = `**[${res.knowledge_panel.title.toLowerCase()}](${res.knowledge_panel.url})**${res.knowledge_panel.images.length ? ` ([image](${res.knowledge_panel[0].url}))` : ""}\n*${res.knowledge_panel.type.toLowerCase()}*\n\n${res.knowledge_panel.description.toLowerCase()}\n`
@@ -35,6 +34,9 @@ module.exports = {
             let response = `**${res.dictionary.word}** : ${res.dictionary.phonetic}\n${res.dictionary.definitions[0]}\n*${res.dictionary.examples[0]}*`
             let reply = await msg.channel.send(response);
             return reply.suppressEmbeds(true);
+        } else if (res.time.date !== null) {
+            let response = `date : ${res.time.date.toLowerCase()}\ntime : ${res.time.hours.toLowerCase()}`
+            return msg.channel.send(response);
         } else {
             return msg.channel.send(`no **results** found .`).then(message => {
                 setTimeout(() => message.delete(), 5_000);
