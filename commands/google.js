@@ -31,7 +31,7 @@ module.exports = {
             let reply = await msg.channel.send(response);
             return reply.suppressEmbeds(true);
         } else if (res.dictionary.word !== null) {
-            let response = `**${res.dictionary.word}**${res.dictionary.phonetic.length > 0 ? ` : ${res.dictionary.phonetic}` : ""}\n${res.dictionary.definitions[0]}\n*${res.dictionary.examples.length > 0 ? res.dictionary.examples[0] : ""}*`
+            let response = `**${res.dictionary.word}**${res.dictionary.phonetic.length > 0 || res.dictionary.phonetic == 'N/A' ? ` : ${res.dictionary.phonetic}` : ""}\n${res.dictionary.definitions[0]}\n${res.dictionary.examples.length > 0 ? `*${res.dictionary.examples[0]}*` : ""}`
             let reply = await msg.channel.send(response);
             return reply.suppressEmbeds(true);
         } else if (res.time.date !== null) {
