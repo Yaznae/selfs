@@ -11,9 +11,9 @@ module.exports = {
             snipes.unshift({
                 content: oldMsg.content,
                 author: oldMsg.author,
-                image: oldMsg.attachments.first() ? oldMsg.attachments.first().proxyURL : null,
+                image: oldMsg.attachments.size ? oldMsg.attachments.first().proxyURL : null,
                 date: currDate.getTime(),
-                sticker: oldMsg.stickers.first() ? oldMsg.stickers.first() : null,
+                sticker: oldMsg.stickers.size ? oldMsg.stickers.first() : null,
                 msgId: oldMsg.id
             });
             snipes.splice(20);
