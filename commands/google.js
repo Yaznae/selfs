@@ -18,16 +18,17 @@ module.exports = {
         }
 
         const res = await google.search(query, options);
+        console.log(res.dictionary)
 
         if (res.knowledge_panel.title !== null) {
-            let response = `**[${res.knowledge_panel.title.toLowerCase()}](${res.knowledge_panel.url}) ([image](${res.knowledge_panel.images[0].url}))\n*${res.knowledge_panel.type.toLowerCase()}*\n\n${res.knowledge_panel.description.toLowerCase()}\n`
+            let response = `**[${res.knowledge_panel.title.toLowerCase()}](${res.knowledge_panel.url})**${res.knowledge_panel.images.length ? ` ([image](${res.knowledge_panel[0].url}))` : ""}\n*${res.knowledge_panel.type.toLowerCase()}*\n\n${res.knowledge_panel.description.toLowerCase()}\n`
             res.knowledge_panel.metadata.forEach(data => {
                 response += `\n${data.title.toLowerCase()}: ${data.value.toLowerCase()}`
             });
             let reply = await msg.channel.send(response);
             return reply.suppressEmbeds(true);
         } else if (res.translation.source_language !== null) {
-            let response = `translation from **${res.translation.source_language}** to **${res.translation.target_language}** :\n\`${res.translation.source_text}\`   ::   \`${res.translation.target_text}\``;
+            let response = `translation from **${res.translation.source_language.toLowerCase()}** to **${res.translation.target_language.toLowerCase()}** :\n\`${res.translation.source_text}\`   ::   \`${res.translation.target_text}\``;
             let reply = await msg.channel.send(response);
             return reply.suppressEmbeds(true);
         } else if (res.dictionary.word !== null) {
