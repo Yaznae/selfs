@@ -7,7 +7,7 @@ module.exports = {
         await msg.delete();
         if (!args.length) return;
 
-        const sn = sagiri(process.env['SAUCENAO_API'], { results: 5 });
+        const sn = sagiri(process.env.SAUCENAO_API, { results: 5 });
         let url;
         if (msg.attachments.size) {
             url = msg.attachments.first().proxyURL;
