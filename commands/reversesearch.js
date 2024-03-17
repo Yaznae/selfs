@@ -1,13 +1,12 @@
-const sagiri = require('sagiri');
+const google = require('googlethis');
 
 module.exports = {
     name: 'reversesearch',
-    aliases: ['ri', 'sauce', 'reverseimage', 'reverseimagesearch'],
+    aliases: ['ri', 'reverseimage', 'reverseimagesearch'],
     async execute(msg, args) {
         await msg.delete();
         if (!args.length) return;
 
-        const sn = sagiri(process.env.SAUCENAO_API, { results: 5 });
         let url;
         if (msg.attachments.size) {
             url = msg.attachments.first().proxyURL;
@@ -16,14 +15,15 @@ module.exports = {
         }
 
         try {
-            const results = await sn(url);
+            const results = await google.search(url, { ris: true });
             let response = `**results for *${url}* :**`;
 
             results.forEach(result => {
-                response += `\n-   [${result.title}](${result.urls[0]}) (${result.similarity}% similar)`;
+                response += `\n-   [${result.title}](${result.url})`;
             });
 
-            return msg.channel.send(response);
+            let res = await msg.channel.send(response);
+            return res.supressEmbeds(true);
         } catch (err) {
             console.log(err)
             return msg.channel.send(`invalid **url** .`).then(message => {

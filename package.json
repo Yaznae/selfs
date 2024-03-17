@@ -15,7 +15,7 @@
     "discord.js-selfbot-v13": "^2.15.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.3",
-    "sagiri": "^3.4.0"
+    "googlethis": "^1.8.0"
   },
   "description": ""
 }

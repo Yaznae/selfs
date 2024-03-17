@@ -57,7 +57,9 @@ module.exports = {
                     }
                 });
                 collector.on('end', c => {
-                    return msg.channel.send("**urban dictionary command** timed out .");
+                    return msg.channel.send(`**urban dictionary command** timed out .`).then(message => {
+                        setTimeout(() => message.delete(), 5_000);
+                    }).catch(err => console.error(err));
                 });
             }
         }
