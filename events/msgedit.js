@@ -2,11 +2,12 @@ module.exports = {
     name: 'messageUpdate',
     async execute(oldMsg, newMsg) {
         try {
-            if (oldMsg.partial) await oldMsg.fetch();
+            if (oldMsg.partial) oldMsg = await oldMsg.fetch();
+            if (newMsg.partial) newMsg = await newMsg.fetch();
             if (oldMsg.author.bot) return;
-            if (msg.author.id == msg.client.user.id) return;
+            if (oldMsg.author.id == oldMsg.client.user.id) return;
 
-            let snipes = msg.client.editsnipes.get(oldMsg.channel.id) || [];
+            let snipes = oldMsg.client.editsnipes.get(oldMsg.channel.id) || [];
             const currDate = new Date();
             snipes.unshift({
                 content: oldMsg.content,
@@ -17,8 +18,9 @@ module.exports = {
                 msgId: oldMsg.id
             });
             snipes.splice(20);
-            msg.client.editsnipes.set(oldMsg.channel.id, snipes);
+            oldMsg.client.editsnipes.set(oldMsg.channel.id, snipes);
         } catch (error) {
+            console.log(error)
             return
         }
     }

@@ -19,6 +19,11 @@ bot.snipes = new Collection();
 bot.editsnipes = new Collection();
 bot.copy = new Collection();
 bot.lockedGCs = new Collection();
+bot.reactsnipes = new Collection();
+
+bot.on('userUpdate', (oldUser, newUser) => {
+    newUser.displayAvatarURL({  })
+})
 
 let cFiles = fs.readdirSync(path.join(__dirname, 'commands')).filter(f => f.endsWith('.js'));
 for (const file of cFiles) {

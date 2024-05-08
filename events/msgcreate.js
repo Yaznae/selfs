@@ -6,17 +6,19 @@ module.exports = {
         if (msg.author.id == copyUsr) {
             let atchd = [];
             let stckrs = [];
-            let msg = msg.content;
+            let message = msg.content + ' ' ? msg.content : '';
             if (msg.attachments.size) {
                 for (let atch in msg.attachments) { atchd.push(atch.proxyURL); };
-                msg += ` (${atchd.join(', ')})`;
+                message += `(${atchd.join(', ')})`;
             };
             if (msg.stickers.size) {
-                for (let stck in msg.stickers) { stckrs.push(stck.url); };
-                msg += ` (${stckrs.join(', ')})`;
+                msg.stickers.forEach((stck) => {
+                    stckrs.push(`https://media.discordapp.net/stickers/${stck.id}.png`);
+                });
+                message += `(${stckrs.join(', ')})`;
             };
             if (!msg) return;
-            msg.channel.send(msg);
+            msg.channel.send(message);
         };
 
         let prefix = process.env.PREFIX;

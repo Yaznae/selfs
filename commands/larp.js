@@ -8,7 +8,11 @@ module.exports = {
 
         try {
             await msg.client.user.setAvatar(usr.displayAvatarURL({ size: 2048, dynamic: true }));
-            await msg.client.user.setGlobalName(usr.globalName);
+            if (!msg.guild) {
+                await msg.client.user.setGlobalName(usr.globalName);
+            } else {
+                await msg.guild.members.me.setNickname(usr.globalName)
+            }
         } catch (e) {
             console.log(e);
         }

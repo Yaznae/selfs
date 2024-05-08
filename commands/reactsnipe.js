@@ -1,12 +1,12 @@
 module.exports = {
-    name: 'editsnipe',
-    aliases: ['es'],
+    name: 'reactsnipe',
+    aliases: ['rs', 'reactionsnipe'],
     async execute(msg, args) {
         function isNum(str) {
             return /^\d+$/.test(str);
         }
 
-        const snipes = msg.client.editsnipes.get(msg.channel.id) || [];
+        const snipes = msg.client.reactsnipes.get(msg.channel.id) || [];
         
         if (args.length && !isNum(args[0])) return;
         if (args.length && args[0] > snipes.length) {
@@ -23,19 +23,22 @@ module.exports = {
                 setTimeout(() => message.delete(), 5_000);
             }).catch(err => console.error(err));
         }
-
-        let cont = `**@${snipe.author.username}**\n`;
-        if (snipe.content) {
-            cont += snipe.content + '\n';
-        }
-        if (snipe.image) {
-            cont += snipe.image
-        }
         await msg.delete();
-        cont += `edited <t:${Math.floor(snipe.date / 1000)}:R> \`(${args[0] || 1}/${snipes.length} edits)\`\n`
+        
+        let reaction = snipe.react
+        let user = snipe.usr
+        let time = snipe.time
+        let message = snipe.message
+
+        if (reaction.id) {
+            reaction = `<${reaction.animated ? 'a:' : ''}${reaction.name}:${reaction.id}>`
+        } else {
+            reaction = reaction.name
+        }
+
+        let cont = `**@${user.user ? user.user.username : user.username}** reacted with ${reaction} <t:${Math.floor(time / 1000)}:R> .`
         
         try {
-            let message = await msg.channel.messages.cache.get(snipe.msgId)
             return message.reply(cont)
         } catch (err) {
             console.log(err)
