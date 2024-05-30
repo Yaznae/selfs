@@ -22,15 +22,21 @@ module.exports = {
         };
 
         let prefix = process.env.PREFIX;
-        if (msg.author.id !== msg.client.user.id || !msg.content.startsWith(prefix)) return;
+        if (msg.author.id !== msg.client.user.id) return;
 
         if (msg.content.toLowerCase().includes('skull')) {
             await msg.react("💀");
         }
 
+        if (msg.content.toLowerCase().includes('sob')) {
+            await msg.react("😭");
+        }
+
         if (msg.content.toLowerCase() == "bro" || msg.content.toLowerCase() == "nah") {
             return msg.react("☠️");
         }
+
+        if (!msg.content.startsWith(prefix)) return;
 
         let args = msg.content.slice(prefix.length).trim().split(/ +/);
         let cmdName = args.shift().toLowerCase();
